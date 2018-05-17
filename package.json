@@ -1,6 +1,6 @@
 {
   "name": "modelproxy-engine-fetch-ssr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "modelproxy中fetch的enginem,支持ssr",
   "main": "out/fetch.engine.js",
   "scripts": {
@@ -13,6 +13,6 @@
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.34",
     "isomorphic-fetch": "^2.2.1",
-    "modelproxy": "^1.0.13"
+    "modelproxy-ssr": "file:/Users/qinwen/study/npm/qwnpm/modelproxy-ssr"
   }
 }

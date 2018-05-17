@@ -1,6 +1,6 @@
 
-import { BaseFactory } from "modelproxy";
-import { IExecute } from "modelproxy/out/models/execute";
+import { BaseFactory } from "modelproxy-ssr";
+import { IExecute } from "modelproxy-ssr/out/models/execute";
 
 const promiseFactory = new BaseFactory<Promise<any>>();
 

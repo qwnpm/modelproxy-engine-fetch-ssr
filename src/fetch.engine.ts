@@ -1,7 +1,7 @@
-import { ModelProxy, BaseEngine } from "modelproxy";
-import { IProxyCtx } from "modelproxy/out/models/proxyctx";
-import { IInterfaceModel } from "modelproxy/out/models/interface";
-import { IExecute } from "modelproxy/out/models/execute";
+import { ModelProxy, BaseEngine } from "modelproxy-ssr";
+import { IProxyCtx } from "modelproxy-ssr/out/models/proxyctx";
+import { IInterfaceModel } from "modelproxy-ssr/out/models/interface";
+import { IExecute } from "modelproxy-ssr/out/models/execute";
 import * as fetch from "isomorphic-fetch";
 
 import { fetchCacheDec } from "./fetch.cache";
@@ -19,13 +19,14 @@ export class FetchEngine extends BaseEngine {
      */
     public init(): void {
         this.use(async (ctx: IProxyCtx, next: Function) => {
-            let formData = new FormData(),
+            let formData,
                 bodyParams = new URLSearchParams(),
                 { executeInfo = {}, instance = {} } = ctx,
                 body, headers: any = { "X-Requested-With": "XMLHttpRequest" },
                 { timeout = 5000, headers: originHeaders = {}, type = "", fetch: fetchOptions = {} } = executeInfo.settings || {},
                 fullPath = this.getFullPath(instance as any, executeInfo);
 
+            formData  = (typeof FormData === "undefined" ) ? [] : new FormData();
             // 根据type来设置不同的header
             switch (type) {
                 case "params":
@@ -44,12 +45,14 @@ export class FetchEngine extends BaseEngine {
             headers = Object.assign({}, headers || {}, originHeaders);
 
             for (const key in executeInfo.data) {
-                if (executeInfo.data.hasOwnProperty(key)) {
-                    let data = executeInfo.data[key];
-
-                    formData.append(key, data);
-                    bodyParams.append(key, data);
+                if (!executeInfo.data.hasOwnProperty(key)) {
+                    continue;
                 }
+                let data = executeInfo.data[key];
+                if (!(formData instanceof Array)) {
+                    formData.append(key, data);
+                }
+                bodyParams.append(key, data);
             }
 
             const fetchFunc: () => Promise<any> = fetch.bind(fetch, fullPath, Object.assign({}, {
@@ -77,11 +80,11 @@ export class FetchEngine extends BaseEngine {
             executeInfo: options,
             instance: instance,
         });
-
-        if (ctx.isError) {
-            throw ctx.err;
-        }
-
+        // console.log(ctx);
+        // if (ctx.isError) {
+        //     throw ctx.err;
+        // }
+        console.log(ctx);
         return ctx.result;
     }
 }
