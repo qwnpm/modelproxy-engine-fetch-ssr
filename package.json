@@ -1,0 +1,18 @@
+{
+  "name": "modelproxy-engine-fetch-ssr",
+  "version": "1.0.0",
+  "description": "modelproxy中fetch的enginem,支持ssr",
+  "main": "out/fetch.engine.js",
+  "scripts": {
+    "test": "exit 0;"
+  },
+  "typings": "./out/fetch.engine.d.ts",
+  "types": "./out/fetch.engine.d.ts",
+  "author": "qinwen",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/isomorphic-fetch": "0.0.34",
+    "isomorphic-fetch": "^2.2.1",
+    "modelproxy": "^1.0.13"
+  }
+}
